@@ -11,17 +11,21 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HighScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
+    private string m_PlayerName = "";
 
     
     // Start is called before the first frame update
     void Start()
     {
+        m_PlayerName = SaveDataManager.Instance.PlayerName;
+        UpdateHighScoreText();
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -35,6 +39,20 @@ public class MainManager : MonoBehaviour
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
             }
+        }
+    }
+
+    private void UpdateHighScoreText()
+    {
+        var highScore = SaveDataManager.Instance.HighScore;
+        if (highScore != null && highScore.PlayerName != "")
+        {
+            HighScoreText.text = $"Current HighScore: {highScore.PlayerName} - {highScore.Score} points";
+            HighScoreText.gameObject.SetActive(true);
+        }
+        else
+        {
+            HighScoreText.gameObject.SetActive(false);
         }
     }
 
@@ -59,17 +77,30 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
+            }
         }
     }
 
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"{m_PlayerName}: {m_Points} points";
     }
 
     public void GameOver()
     {
+        var currentHighScore = SaveDataManager.Instance.HighScore;
+        if (currentHighScore == null || currentHighScore.Score < m_Points)
+        {
+            SaveDataManager.Instance.HighScore = new RecordedScore()
+            {
+                PlayerName = m_PlayerName,
+                Score = m_Points
+            };
+        }
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
