@@ -10,9 +10,12 @@ using UnityEngine.UI;
 
 public class StartMenuManager : MonoBehaviour
 {
-    public TMP_InputField nameInputField;
-    public TextMeshProUGUI highscoreHeadline;
-    public TextMeshProUGUI highscoreText;
+    [SerializeField]
+    private TMP_InputField nameInputField;
+    [SerializeField]
+    private TextMeshProUGUI highscoreHeadline;
+    [SerializeField]
+    private TextMeshProUGUI highscoreText;
 
     // Start is called before the first frame update
     void Start()
