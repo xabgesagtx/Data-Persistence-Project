@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -16,7 +14,8 @@ public class SaveDataManager : MonoBehaviour
         {
             return _playerName;
         }
-        set {
+        set
+        {
             _playerName = value;
             SaveSaveData();
         }
@@ -42,7 +41,8 @@ public class SaveDataManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             LoadSaveData();
-        } else
+        }
+        else
         {
             Destroy(gameObject);
         }

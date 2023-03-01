@@ -1075,6 +1075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameInputField: {fileID: 1781126218}
+  startButton: {fileID: 1961881887}
   highscoreHeadline: {fileID: 379893589}
   highscoreText: {fileID: 472136117}
 --- !u!1 &1166972563
@@ -1995,7 +1996,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1961881888}
   m_OnClick:
     m_PersistentCalls:

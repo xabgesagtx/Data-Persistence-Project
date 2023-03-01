@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,6 +11,8 @@ public class StartMenuManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField nameInputField;
     [SerializeField]
+    private Button startButton;
+    [SerializeField]
     private TextMeshProUGUI highscoreHeadline;
     [SerializeField]
     private TextMeshProUGUI highscoreText;
@@ -23,19 +23,37 @@ public class StartMenuManager : MonoBehaviour
         RecordedScore highScore = SaveDataManager.Instance.HighScore;
         if (highScore != null && highScore.PlayerName != "")
         {
-            highscoreText.text = highScore.PlayerName + ": " + highScore.Score + " points";
+            highscoreText.text = $"{highScore.PlayerName}: {highScore.Score} points";
             highscoreHeadline.gameObject.SetActive(true);
             highscoreText.gameObject.SetActive(true);
-        } else
+        }
+        else
         {
             highscoreHeadline.gameObject.SetActive(false);
             highscoreText.gameObject.SetActive(false);
         }
 
+        nameInputField.onValueChanged.AddListener(HandleNameChanged);
+
         string playerName = SaveDataManager.Instance.PlayerName;
-        if (playerName != null && playerName != "")
+        if (playerName != null && playerName.Trim() != "")
         {
             nameInputField.text = playerName;
+            HandleNameChanged(playerName);
+        }
+    }
+
+    void HandleNameChanged(string newName)
+    {
+        if (newName.Trim() == "")
+        {
+            Debug.Log("Button disabled");
+            startButton.interactable = false;
+        }
+        else
+        {
+            Debug.Log("Button enabled");
+            startButton.interactable = true;
         }
     }
 
